@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <button id="theme-toggle" aria-label="Switch to dark mode">🌙</button>
+
+    <main class="dashboard">
+      <section id="greeting-panel">
+        <p id="greeting-text">Good Morning</p>
+        <p id="clock-display">14:32:07</p>
+        <p id="date-display">Monday, July 14, 2025</p>
+      </section>
+
+      <section id="timer-panel">
+        <h2>Focus Timer</h2>
+        <p id="timer-display">25:00</p>
+        <div id="timer-controls">
+          <button id="timer-start">Start</button>
+          <button id="timer-stop">Stop</button>
+          <button id="timer-reset">Reset</button>
+        </div>
+      </section>
+
+      <section id="task-panel">
+        <h2>Tasks</h2>
+        <div id="task-add-form">
+          <input id="task-input" type="text" maxlength="500" placeholder="Add a new task…" />
+          <button id="task-add-btn">Add</button>
+          <p id="task-error" role="alert" aria-live="polite"></p>
+        </div>
+        <div id="task-sort-controls">
+          <select id="task-sort-select">
+            <option value="incomplete-first">Incomplete First</option>
+            <option value="az">Alphabetical (A–Z)</option>
+            <option value="za">Alphabetical (Z–A)</option>
+            <option value="complete-first">Complete First</option>
+          </select>
+        </div>
+        <ul id="task-list"></ul>
+      </section>
+
+      <section id="links-panel">
+        <h2>Quick Links</h2>
+        <div id="links-add-form">
+          <input id="link-label-input" type="text" maxlength="100" placeholder="Label" />
+          <input id="link-url-input" type="url" maxlength="2048" placeholder="https://..." />
+          <button id="link-add-btn">Add Link</button>
+          <p id="link-error" role="alert" aria-live="polite"></p>
+        </div>
+        <div id="links-list"></div>
+      </section>
+    </main>
+
+    <script src="js/app.js" defer></script>
+  </body>
+</html>
