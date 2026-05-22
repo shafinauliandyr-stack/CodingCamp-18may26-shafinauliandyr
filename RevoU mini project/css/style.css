@@ -1,0 +1,542 @@
+/* ============================================================
+   CSS Custom Properties — Theming (Requirements 9.1, 9.2)
+   ============================================================ */
+
+:root,
+[data-theme="light"] {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f5f5f5;
+  --text-primary:  #1a1a1a;
+  --text-secondary:#555555;
+  --accent:        #4a90e2;
+  --border:        #dddddd;
+  --error:         #d32f2f;
+  --shadow:        rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --bg-primary:    #1e1e1e;
+  --bg-secondary:  #2d2d2d;
+  --text-primary:  #f0f0f0;
+  --text-secondary:#aaaaaa;
+  --accent:        #64b5f6;
+  --border:        #444444;
+  --error:         #ef5350;
+  --shadow:        rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================
+   Minimal CSS Reset (Requirement 10.1)
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   Base Body Styles
+   ============================================================ */
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+/* ============================================================
+   Dashboard CSS Grid Layout (Requirements 12.4, 10.1)
+   ============================================================ */
+
+/*
+  Grid layout:
+  Row 1: #greeting-panel  — full width (spans both columns)
+  Row 2: #timer-panel | #links-panel  — two equal columns
+  Row 3: #task-panel  — full width (spans both columns)
+*/
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "greeting greeting"
+    "timer    links"
+    "task     task";
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 2rem; /* top padding leaves room for fixed theme-toggle */
+}
+
+#greeting-panel { grid-area: greeting; }
+#timer-panel    { grid-area: timer;    }
+#links-panel    { grid-area: links;    }
+#task-panel     { grid-area: task;     }
+
+/* ============================================================
+   Panel Base Styles
+   ============================================================ */
+
+#greeting-panel,
+#timer-panel,
+#links-panel,
+#task-panel {
+  background:    var(--bg-secondary);
+  border:        1px solid var(--border);
+  box-shadow:    0 2px 8px var(--shadow);
+  padding:       1.5rem;
+  border-radius: 8px;
+}
+
+/* ============================================================
+   Theme Toggle — fixed top-right button
+   ============================================================ */
+
+#theme-toggle {
+  position:      fixed;
+  top:           1rem;
+  right:         1rem;
+  z-index:       100;
+  background:    var(--bg-secondary);
+  border:        1px solid var(--border);
+  box-shadow:    0 2px 8px var(--shadow);
+  border-radius: 8px;
+  padding:       0.5rem 0.75rem;
+  font-size:     1.25rem;
+  cursor:        pointer;
+  color:         var(--text-primary);
+  transition:    background-color 0.1s ease, border-color 0.1s ease;
+}
+
+#theme-toggle:hover {
+  background: var(--bg-primary);
+}
+
+/* ============================================================
+   Greeting Panel
+   ============================================================ */
+
+#greeting-panel {
+  text-align: center;
+}
+
+#greeting-text {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+#clock-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+#date-display {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   Focus Timer
+   ============================================================ */
+
+#timer-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#timer-display {
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+#timer-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#timer-controls button {
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.1s ease, opacity 0.1s ease;
+}
+
+#timer-controls button:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+#timer-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Task Manager
+   ============================================================ */
+
+#task-panel h2,
+#links-panel h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+/* Add-task form */
+#task-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+#task-input {
+  flex: 1 1 200px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+#task-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+#task-add-btn {
+  padding: 0.5rem 1.25rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.1s ease;
+}
+
+#task-add-btn:hover {
+  opacity: 0.85;
+}
+
+#task-error {
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--error);
+  min-height: 1.2em;
+}
+
+/* Sort controls */
+#task-sort-controls {
+  margin-bottom: 0.75rem;
+}
+
+#task-sort-select {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+#task-sort-select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Task list */
+#task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+#task-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+.task-complete-toggle {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.task-text {
+  flex: 1 1 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.task-text.completed {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.task-edit-btn,
+.task-delete-btn,
+.task-save-btn,
+.task-cancel-btn {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.1s ease;
+}
+
+.task-delete-btn {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.task-delete-btn:hover {
+  background: var(--error);
+  color: #fff;
+}
+
+.task-edit-btn:hover,
+.task-save-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.task-edit-input {
+  flex: 1 1 150px;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.task-edit-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.task-inline-error {
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--error);
+}
+
+/* ============================================================
+   Quick Links
+   ============================================================ */
+
+#links-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+#link-label-input,
+#link-url-input {
+  flex: 1 1 140px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+#link-label-input:focus,
+#link-url-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+#link-add-btn {
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.1s ease;
+}
+
+#link-add-btn:hover {
+  opacity: 0.85;
+}
+
+#link-error {
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--error);
+  min-height: 1.2em;
+}
+
+#links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.link-btn {
+  flex: 1 1 0;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  word-break: break-all;
+  transition: text-decoration 0.1s ease;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.link-delete-btn {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--error);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--error);
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.1s ease;
+}
+
+.link-delete-btn:hover {
+  background: var(--error);
+  color: #fff;
+}
+
+/* ============================================================
+   Error / Storage Banner
+   ============================================================ */
+
+.storage-error-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--error);
+  color: #fff;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+[role="alert"] {
+  color: var(--error);
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   Focus-visible accessibility outlines
+   ============================================================ */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Responsive — narrow (< 600px): single column
+   ============================================================ */
+
+@media (max-width: 599px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "greeting"
+      "timer"
+      "links"
+      "task";
+    padding-top: 4rem;
+  }
+
+  #clock-display {
+    font-size: 2rem;
+  }
+
+  #timer-display {
+    font-size: 2.25rem;
+  }
+}
+
+/* ============================================================
+   Responsive — wide (> 1200px): task + links side by side
+   ============================================================ */
+
+@media (min-width: 1200px) {
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "greeting greeting"
+      "timer    links"
+      "task     task";
+    max-width: 1400px;
+  }
+}
